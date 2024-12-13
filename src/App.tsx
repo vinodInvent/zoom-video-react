@@ -2,6 +2,32 @@ import uitoolkit from "@zoom/videosdk-ui-toolkit";
 import "@zoom/videosdk-ui-toolkit/dist/videosdk-ui-toolkit.css";
 import "./App.css";
 
+function getExploreName() {
+  const { userAgent } = navigator;
+  if (userAgent.indexOf('Opera') > -1 || userAgent.indexOf('OPR') > -1) {
+    return 'Opera';
+  }
+  if (userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1) {
+    return 'IE';
+  }
+  if (userAgent.indexOf('Edge') > -1) {
+    return 'Edge';
+  }
+  if (userAgent.indexOf('Firefox') > -1) {
+    return 'Firefox';
+  }
+  if (userAgent.indexOf('Safari') > -1 && userAgent.indexOf('Chrome') === -1) {
+    return 'Safari';
+  }
+  if (userAgent.indexOf('Chrome') > -1 && userAgent.indexOf('Safari') > -1) {
+    return 'Chrome';
+  }
+  if (!!(window ) || 'ActiveXObject' in window) {
+    return 'IE>=11';
+  }
+  return 'Unkonwn';
+}
+
 function App() {
   let sessionContainer: HTMLDivElement | null = null;
   // set your auth endpoint here 
@@ -10,7 +36,7 @@ function App() {
   const config = {
     videoSDKJWT: "",
     sessionName: "test",
-    userName: "React",
+    userName:`${getExploreName()}-${Math.floor(Math.random() * 1000)}`,
     sessionPasscode: "123",
     features: ["video", "audio", "settings", "users", "chat", "share"],
     options: { init: {}, audio: {}, video: {}, share: {} },
